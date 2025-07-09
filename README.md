@@ -141,4 +141,4 @@ Si tienes dudas, sugerencias o simplemente quieres saludar, puedes escribirme a:
 
 ---
 
-¡Gracias por visitar mi CV web! Si te sirve, úsalo sin miedo. Mucho éxito 🚀 
+Sientete libre de hacer lo que gustes con el codigo. Puedes personalizarlo a tu antojo, suerte!
