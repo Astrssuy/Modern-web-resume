@@ -1,0 +1,14 @@
+{
+  "name": "cv-web-moderno",
+  "version": "1.0.0",
+  "description": "CV Web Moderno con tema oscuro y animaciones",
+  "scripts": {
+    "install-all": "npm install && cd frontend && npm install",
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "preview": "cd frontend && npm run preview"
+  },
+  "keywords": ["cv", "portfolio", "react", "modern"],
+  "author": "Tu Nombre",
+  "license": "MIT"
+} 
