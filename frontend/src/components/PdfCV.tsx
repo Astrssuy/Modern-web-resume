@@ -1,95 +1,223 @@
 import React from 'react'
+import { useCVData } from '../context/CVDataContext'
+import { useTheme } from '../context/ThemeContext'
 
-const PdfCV = React.forwardRef<HTMLDivElement>((props, ref) => (
-  <div ref={ref} style={{ fontFamily: 'Arial, sans-serif', color: '#222', background: '#fff', padding: 32, width: 800, maxWidth: '100%' }}>
-    {/* Header */}
-    <div style={{ borderBottom: '2px solid #7c3aed', marginBottom: 24, paddingBottom: 16 }}>
-      <h1 style={{ fontSize: 32, fontWeight: 700, margin: 0 }}>Robinson De Jesus Garcia Hidalgo</h1>
-      <p style={{ margin: '8px 0 0 0', fontSize: 16 }}>Desarrollador Full Stack</p>
-      <p style={{ margin: '4px 0 0 0', fontSize: 14 }}>
-        Santo Domingo, República Dominicana | +1 829 872 1049 | Robinxonx37@gmail.com / robinxonx37@hotmail.com
-      </p>
-      <p style={{ margin: '4px 0 0 0', fontSize: 14 }}>
-        GitHub: github.com/Astrssuy | LinkedIn: linkedin.com/in/robinson-de-jesus-garcia-hidalgo-617bb02b1/
-      </p>
+const PdfCV = React.forwardRef<HTMLDivElement>((props, ref) => {
+  const { personalInfo, about, education, certifications, skills, experience, projects } = useCVData()
+  const { themeColors, isDark } = useTheme()
+
+  return (
+    <div 
+      ref={ref} 
+      style={{ 
+        fontFamily: 'Arial, sans-serif', 
+        color: isDark ? '#FFFFFF' : '#222', 
+        background: isDark ? '#1A1A1A' : '#FFFFFF', 
+        padding: 32, 
+        width: 800, 
+        maxWidth: '100%',
+        minHeight: '100vh'
+      }}
+    >
+      {/* Header */}
+      <div style={{ 
+        borderBottom: `2px solid ${themeColors.primary}`, 
+        marginBottom: 24, 
+        paddingBottom: 16 
+      }}>
+        <h1 style={{ 
+          fontSize: 32, 
+          fontWeight: 700, 
+          margin: 0,
+          color: themeColors.primary
+        }}>
+          {personalInfo.name}
+        </h1>
+        <p style={{ 
+          margin: '8px 0 0 0', 
+          fontSize: 16,
+          color: themeColors.text
+        }}>
+          {personalInfo.title}
+        </p>
+        <p style={{ 
+          margin: '4px 0 0 0', 
+          fontSize: 14,
+          color: themeColors.text
+        }}>
+          {personalInfo.location} | {personalInfo.phone} | {personalInfo.email}
+        </p>
+        <p style={{ 
+          margin: '4px 0 0 0', 
+          fontSize: 14,
+          color: themeColors.text
+        }}>
+          GitHub: {personalInfo.github} | LinkedIn: {personalInfo.linkedin}
+        </p>
+      </div>
+
+      {/* Perfil */}
+      <section style={{ marginBottom: 24 }}>
+        <h2 style={{ 
+          color: themeColors.primary, 
+          fontSize: 20, 
+          marginBottom: 8 
+        }}>
+          Perfil
+        </h2>
+        <p style={{ 
+          fontSize: 15, 
+          margin: 0,
+          color: themeColors.text
+        }}>
+          {about}
+        </p>
+      </section>
+
+      {/* Educación */}
+      <section style={{ marginBottom: 24 }}>
+        <h2 style={{ 
+          color: themeColors.primary, 
+          fontSize: 20, 
+          marginBottom: 8 
+        }}>
+          Educación
+        </h2>
+        <ul style={{ 
+          paddingLeft: 16, 
+          margin: 0,
+          color: themeColors.text
+        }}>
+          {education.map((edu, index) => (
+            <li key={index} style={{ marginBottom: 8 }}>
+              <strong>{edu.degree}</strong> – {edu.institution} ({edu.period})
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Certificaciones */}
+      <section style={{ marginBottom: 24 }}>
+        <h2 style={{ 
+          color: themeColors.primary, 
+          fontSize: 20, 
+          marginBottom: 8 
+        }}>
+          Certificaciones
+        </h2>
+        <ul style={{ 
+          paddingLeft: 16, 
+          margin: 0,
+          color: themeColors.text
+        }}>
+          {certifications.map((cert, index) => (
+            <li key={index} style={{ marginBottom: 8 }}>
+              <strong>{cert.name}</strong> – {cert.issuer} ({cert.date})
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Habilidades */}
+      <section style={{ marginBottom: 24 }}>
+        <h2 style={{ 
+          color: themeColors.primary, 
+          fontSize: 20, 
+          marginBottom: 8 
+        }}>
+          Habilidades
+        </h2>
+        <ul style={{ 
+          display: 'flex', 
+          flexWrap: 'wrap', 
+          gap: 8, 
+          listStyle: 'none', 
+          padding: 0, 
+          margin: 0 
+        }}>
+          {skills.map((skill, index) => (
+            <li key={index} style={{ 
+              background: isDark ? `${themeColors.primary}20` : `${themeColors.primary}10`, 
+              color: themeColors.primary, 
+              borderRadius: 4, 
+              padding: '4px 12px', 
+              fontSize: 14,
+              border: `1px solid ${themeColors.primary}30`
+            }}>
+              {skill.name}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Experiencia */}
+      <section style={{ marginBottom: 24 }}>
+        <h2 style={{ 
+          color: themeColors.primary, 
+          fontSize: 20, 
+          marginBottom: 8 
+        }}>
+          Experiencia
+        </h2>
+        <ul style={{ 
+          paddingLeft: 16, 
+          margin: 0,
+          color: themeColors.text
+        }}>
+          {experience.map((exp, index) => (
+            <li key={index} style={{ marginBottom: 8 }}>
+              <strong>{exp.company}</strong> – {exp.position} ({exp.period})<br />
+              {exp.description}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Proyectos */}
+      <section style={{ marginBottom: 24 }}>
+        <h2 style={{ 
+          color: themeColors.primary, 
+          fontSize: 20, 
+          marginBottom: 8 
+        }}>
+          Proyectos Destacados
+        </h2>
+        <ul style={{ 
+          paddingLeft: 16, 
+          margin: 0,
+          color: themeColors.text
+        }}>
+          {projects.map((project, index) => (
+            <li key={index} style={{ marginBottom: 8 }}>
+              <strong>{project.name}</strong><br />
+              {project.description}<br />
+              <em>Tecnologías: {project.technologies.join(', ')}</em>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Contacto */}
+      <section>
+        <h2 style={{ 
+          color: themeColors.primary, 
+          fontSize: 20, 
+          marginBottom: 8 
+        }}>
+          Contacto
+        </h2>
+        <p style={{ 
+          fontSize: 15, 
+          margin: 0,
+          color: themeColors.text
+        }}>
+          Email: {personalInfo.email}<br />
+          Teléfono: {personalInfo.phone}<br />
+          Ubicación: {personalInfo.location}
+        </p>
+      </section>
     </div>
-
-    {/* Perfil */}
-    <section style={{ marginBottom: 24 }}>
-      <h2 style={{ color: '#7c3aed', fontSize: 20, marginBottom: 8 }}>Perfil</h2>
-      <p style={{ fontSize: 15, margin: 0 }}>
-        Desarrollador Full Stack apasionado por crear experiencias digitales únicas. Experiencia en tecnologías modernas, desarrollo web y diseño de soluciones innovadoras. En constante aprendizaje y mejora continua.
-      </p>
-    </section>
-
-    {/* Educación */}
-    <section style={{ marginBottom: 24 }}>
-      <h2 style={{ color: '#7c3aed', fontSize: 20, marginBottom: 8 }}>Educación</h2>
-      <ul style={{ paddingLeft: 16, margin: 0 }}>
-        <li style={{ marginBottom: 8 }}>
-          <strong>Software Development Technology</strong> – ITLA (2021 - 2025)
-        </li>
-        <li style={{ marginBottom: 8 }}>
-          <strong>Introducción a la Programación</strong> – ITLA (2021)
-        </li>
-        <li style={{ marginBottom: 8 }}>
-          <strong>Computer Technician</strong> – CENTLA (2015)
-        </li>
-      </ul>
-    </section>
-
-    {/* Certificaciones */}
-    <section style={{ marginBottom: 24 }}>
-      <h2 style={{ color: '#7c3aed', fontSize: 20, marginBottom: 8 }}>Certificaciones</h2>
-      <ul style={{ paddingLeft: 16, margin: 0 }}>
-        <li style={{ marginBottom: 8 }}>
-          <strong>Ethical Hacker</strong> – Cisco (Mayo 2025)
-        </li>
-        <li style={{ marginBottom: 8 }}>
-          <strong>Introduction to IoT</strong> – Cisco (Mayo 2025)
-        </li>
-        <li style={{ marginBottom: 8 }}>
-          <strong>IT Essentials</strong> – Cisco (Diciembre 2021)
-        </li>
-      </ul>
-    </section>
-
-    {/* Habilidades */}
-    <section style={{ marginBottom: 24 }}>
-      <h2 style={{ color: '#7c3aed', fontSize: 20, marginBottom: 8 }}>Habilidades</h2>
-      <ul style={{ display: 'flex', flexWrap: 'wrap', gap: 8, listStyle: 'none', padding: 0, margin: 0 }}>
-        <li style={{ background: '#ede9fe', color: '#7c3aed', borderRadius: 4, padding: '4px 12px', fontSize: 14 }}>React</li>
-        <li style={{ background: '#ede9fe', color: '#7c3aed', borderRadius: 4, padding: '4px 12px', fontSize: 14 }}>TypeScript</li>
-        <li style={{ background: '#ede9fe', color: '#7c3aed', borderRadius: 4, padding: '4px 12px', fontSize: 14 }}>Node.js</li>
-        <li style={{ background: '#ede9fe', color: '#7c3aed', borderRadius: 4, padding: '4px 12px', fontSize: 14 }}>MySQL</li>
-        <li style={{ background: '#ede9fe', color: '#7c3aed', borderRadius: 4, padding: '4px 12px', fontSize: 14 }}>Tailwind CSS</li>
-        <li style={{ background: '#ede9fe', color: '#7c3aed', borderRadius: 4, padding: '4px 12px', fontSize: 14 }}>Framer Motion</li>
-        <li style={{ background: '#ede9fe', color: '#7c3aed', borderRadius: 4, padding: '4px 12px', fontSize: 14 }}>HTML</li>
-        <li style={{ background: '#ede9fe', color: '#7c3aed', borderRadius: 4, padding: '4px 12px', fontSize: 14 }}>CSS</li>
-        <li style={{ background: '#ede9fe', color: '#7c3aed', borderRadius: 4, padding: '4px 12px', fontSize: 14 }}>JavaScript</li>
-      </ul>
-    </section>
-
-    {/* Experiencia */}
-    <section style={{ marginBottom: 24 }}>
-      <h2 style={{ color: '#7c3aed', fontSize: 20, marginBottom: 8 }}>Experiencia</h2>
-      <ul style={{ paddingLeft: 16, margin: 0 }}>
-        <li style={{ marginBottom: 8 }}>
-          <strong>Coseguros</strong> – Proyecto destacado: Desarrollo de plataforma web para gestión de coseguros, con integración de imágenes, carrusel y animaciones.
-        </li>
-      </ul>
-    </section>
-
-    {/* Contacto */}
-    <section>
-      <h2 style={{ color: '#7c3aed', fontSize: 20, marginBottom: 8 }}>Contacto</h2>
-      <p style={{ fontSize: 15, margin: 0 }}>
-        Email: Robinxonx37@gmail.com / robinxonx37@hotmail.com<br />
-        Teléfono: +1 829 872 1049<br />
-        Ubicación: Santo Domingo, República Dominicana
-      </p>
-    </section>
-  </div>
-))
+  )
+})
 
 export default PdfCV 

@@ -3,13 +3,16 @@ import { Download, ArrowDown, Github, Linkedin, Mail } from 'lucide-react'
 import { useCallback, useRef } from 'react'
 import PdfCV from './PdfCV'
 import { useTheme } from '../context/ThemeContext'
+import { useCVData } from '../context/CVDataContext'
 
 const Hero = () => {
   const { themeColors } = useTheme()
+  const { personalInfo } = useCVData()
+  
   const socialLinks = [
-    { icon: Github, href: 'https://github.com/Astrssuy', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://www.linkedin.com/in/robinson-de-jesus-garcia-hidalgo-617bb02b1/', label: 'LinkedIn' },
-    { icon: Mail, href: 'mailto:Robinxonx37@gmail.com', label: 'Email' },
+    { icon: Github, href: `https://${personalInfo.github}`, label: 'GitHub' },
+    { icon: Linkedin, href: `https://${personalInfo.linkedin}`, label: 'LinkedIn' },
+    { icon: Mail, href: `mailto:${personalInfo.email}`, label: 'Email' },
   ]
 
   // Ref para el componente PDF
@@ -51,7 +54,7 @@ const Hero = () => {
           {/* Imagen de perfil */}
           <motion.img
             src="/I.jpg"
-            alt="Robinson De Jesus Garcia Hidalgo"
+            alt={personalInfo.name}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
@@ -67,10 +70,10 @@ const Hero = () => {
           >
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
               <span style={{ color: themeColors.text }}>Hola, soy </span>
-              <span className="gradient-text">Robinson De Jesus Garcia Hidalgo</span>
+              <span className="gradient-text">{personalInfo.name}</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto" style={{ color: themeColors.text }}>
-              Desarrollador Full Stack apasionado por crear experiencias digitales únicas desde República Dominicana, Santo Domingo
+              {personalInfo.title} apasionado por crear experiencias digitales únicas desde {personalInfo.location}
             </p>
           </motion.div>
 
