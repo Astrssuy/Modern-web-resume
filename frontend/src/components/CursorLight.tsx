@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
+import { useTheme } from '../context/ThemeContext'
 
 const CursorLight = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isVisible, setIsVisible] = useState(false)
   const [bubbles, setBubbles] = useState<Array<{id: number, x: number, y: number, size: number, speed: number}>>([])
+  const { themeColors } = useTheme()
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -92,7 +94,12 @@ const CursorLight = () => {
           opacity: isVisible ? 0.3 : 0,
         }}
       >
-        <div className="w-80 h-80 rounded-full bg-gradient-to-r from-purple-500/20 via-purple-400/15 to-purple-600/20 blur-xl"></div>
+        <div 
+          className="w-80 h-80 rounded-full blur-xl"
+          style={{
+            background: `linear-gradient(to right, ${themeColors.primary}20, ${themeColors.secondary}15, ${themeColors.accent}20)`
+          }}
+        />
       </div>
 
       {/* Secondary cursor light */}
@@ -104,7 +111,12 @@ const CursorLight = () => {
           opacity: isVisible ? 0.4 : 0,
         }}
       >
-        <div className="w-32 h-32 rounded-full bg-gradient-to-r from-purple-400/30 via-purple-300/25 to-purple-500/30 blur-lg"></div>
+        <div 
+          className="w-32 h-32 rounded-full blur-lg"
+          style={{
+            background: `linear-gradient(to right, ${themeColors.secondary}30, ${themeColors.primary}25, ${themeColors.accent}30)`
+          }}
+        />
       </div>
 
       {/* Interactive elements highlight */}
@@ -116,7 +128,12 @@ const CursorLight = () => {
           opacity: isVisible ? 0.1 : 0,
         }}
       >
-        <div className="w-48 h-48 rounded-full bg-gradient-to-r from-purple-600/10 via-purple-500/8 to-purple-700/10 blur-2xl"></div>
+        <div 
+          className="w-48 h-48 rounded-full blur-2xl"
+          style={{
+            background: `linear-gradient(to right, ${themeColors.accent}10, ${themeColors.primary}8, ${themeColors.secondary}10)`
+          }}
+        />
       </div>
 
       {/* Bubbles */}
@@ -134,9 +151,10 @@ const CursorLight = () => {
           }}
         >
           <div 
-            className="w-full h-full rounded-full bg-gradient-to-br from-purple-400/60 via-purple-300/50 to-purple-500/60 blur-sm"
+            className="w-full h-full rounded-full blur-sm"
             style={{
-              boxShadow: '0 0 15px rgba(168, 85, 247, 0.5), 0 0 30px rgba(168, 85, 247, 0.3)',
+              background: `linear-gradient(to bottom right, ${themeColors.secondary}60, ${themeColors.primary}50, ${themeColors.accent}60)`,
+              boxShadow: `0 0 15px ${themeColors.primary}50, 0 0 30px ${themeColors.primary}30`,
             }}
           />
         </div>

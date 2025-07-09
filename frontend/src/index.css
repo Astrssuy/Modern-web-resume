@@ -3,13 +3,22 @@
 @tailwind utilities;
 
 @layer base {
-  /* * {
-    @apply border-border;
-  } */
+  :root {
+    --color-primary: #8B5CF6;
+    --color-secondary: #A855F7;
+    --color-accent: #7C3AED;
+    --color-background: #0A0A0A;
+    --color-text: #FFFFFF;
+    --color-card-bg: #1A1A1A;
+    --color-border: #2D2D2D;
+  }
   
   body {
-    @apply bg-dark-950 text-gray-100 font-sans;
+    @apply font-sans;
     font-feature-settings: "rlig" 1, "calt" 1;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   
   html {
@@ -19,23 +28,37 @@
 
 @layer components {
   .glass-effect {
-    @apply bg-dark-900/20 backdrop-blur-md border border-dark-700/50;
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
   }
   
   .gradient-text {
-    @apply bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
   .card-hover {
-    @apply transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20;
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-2xl;
+  }
+  
+  .card-hover:hover {
+    box-shadow: 0 25px 50px -12px var(--color-primary);
   }
   
   .nav-link {
-    @apply relative px-3 py-2 text-gray-300 hover:text-purple-400 transition-colors duration-200;
+    @apply relative px-3 py-2 transition-colors duration-200;
+    color: var(--color-text);
+  }
+  
+  .nav-link:hover {
+    color: var(--color-primary);
   }
   
   .nav-link::after {
-    @apply content-[''] absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-300;
+    @apply content-[''] absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
   }
   
   .nav-link:hover::after {
@@ -43,19 +66,29 @@
   }
   
   .section-title {
-    @apply text-3xl md:text-4xl font-bold gradient-text mb-8;
+    @apply text-3xl md:text-4xl font-bold mb-8;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
   .skill-tag {
-    @apply px-3 py-1 bg-dark-800 border border-purple-500/30 text-purple-300 rounded-full text-sm font-medium;
+    @apply px-3 py-1 rounded-full text-sm font-medium;
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
   }
   
   .timeline-item {
-    @apply relative pl-8 pb-8 border-l border-purple-500/30;
+    @apply relative pl-8 pb-8;
+    border-left: 1px solid var(--color-primary);
   }
   
   .timeline-item::before {
-    @apply content-[''] absolute left-[-8px] top-0 w-4 h-4 bg-purple-500 rounded-full border-2 border-dark-950;
+    @apply content-[''] absolute left-[-8px] top-0 w-4 h-4 rounded-full border-2;
+    background-color: var(--color-primary);
+    border-color: var(--color-background);
   }
 }
 

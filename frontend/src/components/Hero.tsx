@@ -2,8 +2,10 @@ import { motion } from 'framer-motion'
 import { Download, ArrowDown, Github, Linkedin, Mail } from 'lucide-react'
 import { useCallback, useRef } from 'react'
 import PdfCV from './PdfCV'
+import { useTheme } from '../context/ThemeContext'
 
 const Hero = () => {
+  const { themeColors } = useTheme()
   const socialLinks = [
     { icon: Github, href: 'https://github.com/Astrssuy', label: 'GitHub' },
     { icon: Linkedin, href: 'https://www.linkedin.com/in/robinson-de-jesus-garcia-hidalgo-617bb02b1/', label: 'LinkedIn' },
@@ -37,7 +39,12 @@ const Hero = () => {
         <PdfCV ref={pdfRef} />
       </div>
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-dark-950 via-dark-900 to-purple-950/20"></div>
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: `linear-gradient(to bottom right, ${themeColors.background}, ${themeColors.cardBg}, ${themeColors.primary}20)`
+        }}
+      />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center flex flex-col items-center">
@@ -48,7 +55,8 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="w-40 h-40 rounded-full object-cover border-4 border-purple-500 shadow-lg mb-6"
+            className="w-40 h-40 rounded-full object-cover border-4 shadow-lg mb-6"
+            style={{ borderColor: themeColors.primary }}
           />
           {/* Main heading */}
           <motion.div
@@ -58,10 +66,10 @@ const Hero = () => {
             className="mb-8"
           >
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
-              <span className="text-gray-100">Hola, soy </span>
+              <span style={{ color: themeColors.text }}>Hola, soy </span>
               <span className="gradient-text">Robinson De Jesus Garcia Hidalgo</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto" style={{ color: themeColors.text }}>
               Desarrollador Full Stack apasionado por crear experiencias digitales únicas desde República Dominicana, Santo Domingo
             </p>
           </motion.div>
@@ -73,9 +81,20 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="mb-12"
           >
-            <div className="inline-flex items-center space-x-2 bg-dark-800/50 backdrop-blur-sm border border-purple-500/20 rounded-full px-6 py-3">
-              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-              <span className="text-purple-300 font-medium">Disponible para nuevos proyectos</span>
+            <div 
+              className="inline-flex items-center space-x-2 backdrop-blur-sm rounded-full px-6 py-3"
+              style={{
+                backgroundColor: `${themeColors.cardBg}80`,
+                border: `1px solid ${themeColors.primary}20`,
+              }}
+            >
+              <div 
+                className="w-2 h-2 rounded-full animate-pulse"
+                style={{ backgroundColor: themeColors.primary }}
+              />
+              <span className="font-medium" style={{ color: themeColors.primary }}>
+                Disponible para nuevos proyectos
+              </span>
             </div>
           </motion.div>
 
@@ -90,7 +109,11 @@ const Hero = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleDownloadPDF}
-              className="flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
+              className="flex items-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg"
+              style={{
+                background: `linear-gradient(135deg, ${themeColors.primary}, ${themeColors.secondary})`,
+                boxShadow: `0 10px 25px -5px ${themeColors.primary}25`,
+              }}
             >
               <Download size={20} />
               <span>Descargar CV</span>
@@ -99,7 +122,11 @@ const Hero = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center space-x-2 border border-purple-500/30 text-purple-300 hover:text-purple-400 hover:border-purple-400 px-8 py-4 rounded-lg font-semibold transition-all duration-300"
+              className="flex items-center space-x-2 px-8 py-4 rounded-lg font-semibold transition-all duration-300"
+              style={{
+                border: `1px solid ${themeColors.primary}30`,
+                color: themeColors.primary,
+              }}
             >
               <span>Ver Proyectos</span>
               <ArrowDown size={20} />
@@ -119,7 +146,12 @@ const Hero = () => {
                 href={social.href}
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="p-3 bg-dark-800/50 backdrop-blur-sm border border-purple-500/20 rounded-lg text-purple-300 hover:text-purple-400 hover:border-purple-400 transition-all duration-300"
+                className="p-3 backdrop-blur-sm rounded-lg transition-all duration-300"
+                style={{
+                  backgroundColor: `${themeColors.cardBg}80`,
+                  border: `1px solid ${themeColors.primary}20`,
+                  color: themeColors.primary,
+                }}
                 aria-label={social.label}
               >
                 <social.icon size={24} />
@@ -139,13 +171,15 @@ const Hero = () => {
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="w-6 h-10 border-2 border-purple-400 rounded-full flex justify-center"
+          className="w-6 h-10 border-2 rounded-full flex justify-center"
+          style={{ borderColor: themeColors.primary }}
         >
           <motion.div
             animate={{ y: [0, 12, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="w-1 h-3 bg-purple-400 rounded-full mt-2"
-          ></motion.div>
+            className="w-1 h-3 rounded-full mt-2"
+            style={{ backgroundColor: themeColors.primary }}
+          />
         </motion.div>
       </motion.div>
     </section>
