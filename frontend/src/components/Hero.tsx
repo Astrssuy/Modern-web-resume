@@ -7,7 +7,7 @@ import { useCVData } from '../context/CVDataContext'
 
 const Hero = () => {
   const { themeColors } = useTheme()
-  const { personalInfo } = useCVData()
+  const { personalInfo, isEditMode, updatePersonalInfo, mainMessage, updateMainMessage, mainAvailable, updateMainAvailable } = useCVData()
   
   const socialLinks = [
     { icon: Github, href: `https://${personalInfo.github}`, label: 'GitHub' },
@@ -53,7 +53,7 @@ const Hero = () => {
         <div className="text-center flex flex-col items-center">
           {/* Imagen de perfil */}
           <motion.img
-            src="/I.jpg"
+            src={personalInfo.profileImage}
             alt={personalInfo.name}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -70,11 +70,30 @@ const Hero = () => {
           >
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
               <span style={{ color: themeColors.text }}>Hola, soy </span>
-              <span className="gradient-text">{personalInfo.name}</span>
+              {isEditMode ? (
+                <input
+                  className="gradient-text font-bold bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500"
+                  style={{ fontSize: 'inherit', color: themeColors.text }}
+                  value={personalInfo.name}
+                  onChange={e => updatePersonalInfo({ name: e.target.value })}
+                />
+              ) : (
+                <span className="gradient-text">{personalInfo.name}</span>
+              )}
             </h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto" style={{ color: themeColors.text }}>
-              {personalInfo.title} apasionado por crear experiencias digitales únicas desde {personalInfo.location}
-            </p>
+            {isEditMode ? (
+              <textarea
+                className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500"
+                style={{ color: themeColors.text, width: '100%' }}
+                value={mainMessage}
+                onChange={e => updateMainMessage(e.target.value)}
+                rows={2}
+              />
+            ) : (
+              <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto" style={{ color: themeColors.text }}>
+                {mainMessage}
+              </p>
+            )}
           </motion.div>
 
           {/* Animated subtitle */}
@@ -96,7 +115,16 @@ const Hero = () => {
                 style={{ backgroundColor: themeColors.primary }}
               />
               <span className="font-medium" style={{ color: themeColors.primary }}>
-                Disponible para nuevos proyectos
+                {isEditMode ? (
+                  <input
+                    className="font-medium bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500"
+                    style={{ color: themeColors.primary }}
+                    value={mainAvailable}
+                    onChange={e => updateMainAvailable(e.target.value)}
+                  />
+                ) : (
+                  mainAvailable
+                )}
               </span>
             </div>
           </motion.div>
@@ -143,7 +171,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.9 }}
             className="flex justify-center space-x-6"
           >
-            {socialLinks.map((social, index) => (
+            {socialLinks.map((social) => (
               <motion.a
                 key={social.label}
                 href={social.href}

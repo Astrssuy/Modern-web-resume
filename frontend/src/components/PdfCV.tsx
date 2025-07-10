@@ -2,8 +2,8 @@ import React from 'react'
 import { useCVData } from '../context/CVDataContext'
 import { useTheme } from '../context/ThemeContext'
 
-const PdfCV = React.forwardRef<HTMLDivElement>((props, ref) => {
-  const { personalInfo, about, education, certifications, skills, experience, projects } = useCVData()
+const PdfCV = React.forwardRef<HTMLDivElement>((_, ref) => {
+  const { personalInfo, about, education, certifications, skillCategories, otherSkills, experience, projects } = useCVData()
   const { themeColors, isDark } = useTheme()
 
   return (
@@ -83,17 +83,18 @@ const PdfCV = React.forwardRef<HTMLDivElement>((props, ref) => {
         }}>
           Educación
         </h2>
-        <ul style={{ 
-          paddingLeft: 16, 
-          margin: 0,
-          color: themeColors.text
-        }}>
-          {education.map((edu, index) => (
-            <li key={index} style={{ marginBottom: 8 }}>
-              <strong>{edu.degree}</strong> – {edu.institution} ({edu.period})
-            </li>
-          ))}
-        </ul>
+        <div>
+          <h3>Educación</h3>
+          <ul>
+            {education.map((edu, idx) => (
+              <li key={edu.title + idx}>
+                <strong>{edu.title}</strong> – {edu.institution} ({edu.period})<br />
+                <span>{edu.location}</span><br />
+                <span>{edu.description}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       {/* Certificaciones */}
@@ -105,20 +106,21 @@ const PdfCV = React.forwardRef<HTMLDivElement>((props, ref) => {
         }}>
           Certificaciones
         </h2>
-        <ul style={{ 
-          paddingLeft: 16, 
-          margin: 0,
-          color: themeColors.text
-        }}>
-          {certifications.map((cert, index) => (
-            <li key={index} style={{ marginBottom: 8 }}>
-              <strong>{cert.name}</strong> – {cert.issuer} ({cert.date})
-            </li>
-          ))}
-        </ul>
+        <div>
+          <h3>Certificaciones</h3>
+          <ul>
+            {certifications.map((cert, idx) => (
+              <li key={cert.title + idx}>
+                <strong>{cert.title}</strong> – {cert.institution} ({cert.period})<br />
+                <span>{cert.location}</span><br />
+                <span>{cert.description}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
-      {/* Habilidades */}
+      {/* Skills principales */}
       <section style={{ marginBottom: 24 }}>
         <h2 style={{ 
           color: themeColors.primary, 
@@ -127,27 +129,20 @@ const PdfCV = React.forwardRef<HTMLDivElement>((props, ref) => {
         }}>
           Habilidades
         </h2>
-        <ul style={{ 
-          display: 'flex', 
-          flexWrap: 'wrap', 
-          gap: 8, 
-          listStyle: 'none', 
-          padding: 0, 
-          margin: 0 
-        }}>
-          {skills.map((skill, index) => (
-            <li key={index} style={{ 
-              background: isDark ? `${themeColors.primary}20` : `${themeColors.primary}10`, 
-              color: themeColors.primary, 
-              borderRadius: 4, 
-              padding: '4px 12px', 
-              fontSize: 14,
-              border: `1px solid ${themeColors.primary}30`
-            }}>
-              {skill.name}
-            </li>
-          ))}
-        </ul>
+        <div>
+          <h3>Skills principales</h3>
+          <ul>
+            {skillCategories.length > 0 && skillCategories[0].skills.map((skill, index) => (
+              <li key={skill.name + index}>{skill.name} ({skill.level}%)</li>
+            ))}
+          </ul>
+          <h4>Otras habilidades</h4>
+          <ul>
+            {otherSkills.map((skill, idx) => (
+              <li key={skill + idx}>{skill}</li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       {/* Experiencia */}
@@ -182,19 +177,20 @@ const PdfCV = React.forwardRef<HTMLDivElement>((props, ref) => {
         }}>
           Proyectos Destacados
         </h2>
-        <ul style={{ 
-          paddingLeft: 16, 
-          margin: 0,
-          color: themeColors.text
-        }}>
-          {projects.map((project, index) => (
-            <li key={index} style={{ marginBottom: 8 }}>
-              <strong>{project.name}</strong><br />
-              {project.description}<br />
-              <em>Tecnologías: {project.technologies.join(', ')}</em>
-            </li>
-          ))}
-        </ul>
+        <div>
+          <h3>Proyectos</h3>
+          <ul>
+            {projects.map((project, idx) => (
+              <li key={project.title + idx}>
+                <strong>{project.title}</strong><br />
+                <span>{project.description}</span><br />
+                <span>Tecnologías: {project.technologies.join(', ')}</span><br />
+                <span>Demo: {project.liveUrl}</span><br />
+                <span>Código: {project.githubUrl}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       {/* Contacto */}
